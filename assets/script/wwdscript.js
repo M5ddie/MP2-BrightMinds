@@ -2,7 +2,7 @@ let fullName = document.querySelector("#fullName");
 let mobileName = document.querySelector("#mobileName");
 let emailAdd = document.querySelector("#emailAdd");
 let appDate = document.querySelector("#appDate");
-// let appTimeStart = document.querySelector("#appTimeStart");
+let appTime = document.querySelector("#appTime");
 // let appTimeEnd = document.querySelector("#appTimeEnd");
 
 let conCreation = document.querySelector("#conCreation");
@@ -22,14 +22,14 @@ let nameError = document.querySelector("#nameError");
 let mobileError = document.querySelector("#mobileError");
 let emailError = document.querySelector("#emailError");
 let appDateError = document.querySelector("#appDateError");
-let appTimeStartError = document.querySelector("#appTimeStartError");
-let appTimeEndError = document.querySelector("#appTimeEndError");
+let appTimeError = document.querySelector("#appTimeError");
+// let appTimeEndError = document.querySelector("#appTimeEndError");
 let messageOne = [];
 let messageTwo = [];
 let messageThree = [];
 let messageFour = [];
 let messageFive = [];
-let messageSix = [];
+// let messageSix = [];
 
 let errorMsgs = [];
 
@@ -38,14 +38,19 @@ let bookNowBtn = document.querySelector("#bookNowBtn");
 // event listener
 bookNowBtn.addEventListener("click", validateForm);
 // appDate.addEventListener("change", validateAppDate);
-// appTimeStart.addEventListener("change", validateAppStart);
+// appTime.addEventListener("change", saveBookedTime);
 // appTimeEnd.addEventListener("change", validateAppEnd);
 personalBtn.addEventListener("click", personalPackage);
 professionalBtn.addEventListener("click", professionalPackage);
 ultimateBtn.addEventListener("click", ultimatePackage);
 
 // limits the calendar to current Date
-// appDate.setAttribute("min", currentDate());
+appDate.setAttribute("min", currentDate());
+
+// for local storage
+let appTimeOpts = document.querySelectorAll("option");
+let bookedTime = JSON.parse(localStorage.getItem("bookedTime"));
+retrieveBookedTime();
 
 function validateForm(e) {
     e.preventDefault();
@@ -54,7 +59,7 @@ function validateForm(e) {
     let mobileNameValue = mobileName.value;
     let emailAddValue = emailAdd.value;
     let appDateValue = appDate.value;
-    // let appTimeStartValue = appTimeStart.value;
+    let appTimeValue = appTime.value;
     // let appTimeEndValue = appTimeEnd.value;
    
     // deletes repetitive error messages
@@ -63,7 +68,7 @@ function validateForm(e) {
     messageThree.length = 0;
     messageFour.length = 0;
     messageFive.length = 0;
-    messageSix.length = 0;
+    // messageSix.length = 0;
 
     errorMsgs.length = 0;
 
@@ -111,11 +116,11 @@ function validateForm(e) {
 
     }
 
-    // if (appTimeStartValue === "" || appTimeStartValue == null) {
-    //     messageFive.push("*Please enter time for the meeting.");
-    //     errorMsgs.push(messageFive); // checking before sending email
-    //     appTimeStartError.style.color = "red";
-    // }
+    if (appTimeValue === "" || appTimeValue == null) {
+        messageFive.push("*Please enter time for the meeting.");
+        errorMsgs.push(messageFive); // checking before sending email
+        appTimeError.style.color = "red";
+    }
 
     // if (appTimeEndValue === "" || appTimeEndValue == null) {
     //     messageSix.push("*Please enter time for the meeting!");
@@ -127,21 +132,22 @@ function validateForm(e) {
     mobileError.innerHTML = messageTwo.join("<br>");
     emailError.innerHTML = messageThree.join("<br>");
     appDateError.innerHTML = messageFour.join("<br>");
-    // appTimeStartError.innerHTML = messageFive.join("<br>");
+    appTimeError.innerHTML = messageFive.join("<br>");
     // appTimeEndError.innerHTML = messageSix.join("<br>");
 
     // reuse purpose
     if (errorMsgs.length > 0) {
         console.log("Error message/s exist.")
         alert("Email not sent. Check booking form.");
-        return false;
     } else {
+        saveBookedTime(appTimeValue);
         console.log("Sending an email...")
         sendEmail(e);
+        console.log("done email...");
     }
 }
 
-// get current Date
+// get current Date *************************************************************
 function currentDate() {
 
     let today = new Date();
@@ -153,6 +159,56 @@ function currentDate() {
 
     return year + "-" + MM + "-" + day
 }
+// get current Date *************************************************************
+// checked booked time *************************************************************
+
+// save to local
+function saveBookedTime(selectedTime) {
+
+    if (bookedTime == null) {
+        bookedTime = [];
+    }
+
+    let appointment = {
+        appDateObj: appDate.value,
+        appTimeObj: selectedTime
+    }
+
+    
+    appTimeOpts.forEach((listedTime) => {
+            if (listedTime.value == selectedTime) {
+                listedTime.setAttribute("name", "timeBooked");
+            }  
+    });
+
+    bookedTime.push(appointment);
+
+    localStorage.setItem("bookedTime", JSON.stringify(bookedTime));
+    console.log("time saved to local storage..");
+
+}
+
+// retrieve from local
+function retrieveBookedTime() {
+    if (bookedTime == null) {
+        console.log("bookedTime is empty.")
+    } else {
+        appTimeOpts.forEach((listedTime) => {
+            bookedTime.forEach((sched) => {
+                if (listedTime.value == sched.appTimeObj) {
+                    listedTime.setAttribute("disabled", "");
+                    listedTime.removeAttribute("name", "timeBooked");
+                }            
+            });
+        });
+        
+        
+
+        console.log("time disabled from local storage...");
+    }
+}
+
+// checked booked time *************************************************************
 
 // IVY ADDED
 // event listener
@@ -346,6 +402,8 @@ function sendEmail(e){
     .then(function() {
         console.log('SUCCESS!');
         alert("Email sent successfully");
+        
+        retrieveBookedTime();
     }, function(error) {
         console.log('FAILED...', error);
         alert('FAILED...', error);

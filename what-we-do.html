@@ -48,7 +48,8 @@
   <section class="price" id="price">
     <!-- <h1 class="ourprice">Our Pricing</h1> -->
     <div class="offers">
-        <div class="details shadow-lg price-box">
+        <div class="details shadow-lg price-box d-flex flex-column justify-content-between">
+          <div>
             <div>
               <h1>Personal</h1>
             </div>
@@ -65,36 +66,41 @@
               <p>Free Custom Domain
               </p>
             </div>
-            <div class="testtae">
-              <button type="button" class="personalBtn" id="personalBtn" data-bs-toggle="modal" data-bs-target="#pricingModal">Get Quote!</button>
-            </div>
+          </div>
+          <div class="persDiv pb-3">
+            <button type="button" class="personalBtn" id="personalBtn" data-bs-toggle="modal" data-bs-target="#pricingModal">Get
+              Quote!</button>
+          </div>
         </div>
-        <div class="details shadow-lg">
+        <div class="details shadow-lg d-flex flex-column justify-content-between">
             <div>
-              <h1>Professional</h1>
+              <div>
+                <h1>Professional</h1>
+              </div>
+              <div>
+                <h2 class="professionalPrice">Starts at ₱10k!</h2>
+              </div>
+              <div>
+                <p>Content Creation
+                </p>
+                <p>Social Media Management
+                </p>
+                <p>Graphic Design
+                </p>
+                <p>Free Custom Domain
+                </p>
+                <p>Monthly Analytical Report
+                </p>
+                <p>Social Media Engagement
+                </p>
+              </div>
             </div>
-            <div>
-              <h2 class="professionalPrice">Starts at ₱10k!</h2>
-            </div>
-            <div>
-              <p>Content Creation
-              </p>
-              <p>Social Media Management
-              </p>
-              <p>Graphic Design
-              </p>
-              <p>Free Custom Domain
-              </p>
-              <p>Monthly Analytical Report
-              </p>
-              <p>Social Media Engagement
-              </p>
-            </div>
-            <div class="testdiv">
+            <div class="testdiv pb-3">
               <button type="button" class="professionalBtn" id="professionalBtn"  data-bs-toggle="modal" data-bs-target="#pricingModal">Get Quote!</button>
             </div>
         </div>
-        <div class="details shadow-lg">
+        <div class="details shadow-lg d-flex flex-column justify-content-between">
+          <div>
             <div>
               <h1>Ultimate</h1>
             </div>
@@ -119,9 +125,10 @@
               <p>24/7 Customer Support
               </p>
             </div>
-            <div>
-              <button type="button" class="ultimateBtn mb-5" id="ultimateBtn" data-bs-toggle="modal" data-bs-target="#pricingModal">Get Quote!</button>
-            </div>
+          </div>
+          <div class="testdiv pb-3">
+            <button type="button" class="ultimateBtn" id="ultimateBtn" data-bs-toggle="modal" data-bs-target="#pricingModal">Get Quote!</button>
+          </div>
         </div>
     </div>
   </section>
@@ -365,9 +372,9 @@
       
                     <div class="row form-row my-2 py-2 px-5">
                       <label for="appDate" class="py-2">Appointment Date</label>
-                      <!-- <input type="date" class="py-2" name="appDate" id="appDate" class="form-control"
-                        placeholder="Enter Appointment Date" required> -->
-                        <select name="appDate" id="appDate">
+                      <input type="date" class="py-2" name="appDate" id="appDate" class="form-control"
+                        placeholder="Enter Appointment Date" required>
+                        <!-- <select name="appDate" id="appDate">
                           <option value="" disabled selected>---</option>
                           <option value="April 27, 2023 @ 08:00AM - 08:15AM">April 27, 2023 @ 08:00AM - 08:15AM</option>
                           <option value="April 27, 2023 @ 08:45AM - 09:00AM">April 27, 2023 @ 08:45AM - 09:00AM</option>
@@ -377,8 +384,21 @@
                           <option value="April 28, 2023 @ 08:45AM - 09:00AM">April 28, 2023 @ 08:45AM - 09:00AM</option>
                           <option value="April 28, 2023 @ 09:30AM - 09:45AM">April 28, 2023 @ 09:30AM - 09:45AM</option>
                           <option value="April 28, 2023 @ 10:15AM - 10:30AM">April 28, 2023 @ 10:15AM - 10:30AM</option>
-                        </select>
+                        </select> -->
                       <div id="appDateError"></div>
+                    </div>
+
+                    <div class="row form-row my-2 py-2 px-5">
+                     
+                      <label class="mb-2">Appointment Time</label>
+                      <select id="appTime" name="appTime" class="p-2">
+                        <option value="08:00AM - 08:15AM">08:00AM - 08:15AM</option>
+                        <option value="08:45AM - 09:00AM">08:45AM - 09:00AM</option>
+                        <option value="09:30AM - 09:45AM">09:30AM - 09:45AM</option>
+                        <option value="10:15AM - 10:30AM">10:15AM - 10:30AM</option>
+                      </select>
+                      <div id="appTimeError"></div>
+
                     </div>
 
                     <!-- hidden -->
