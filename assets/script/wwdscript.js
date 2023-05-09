@@ -38,7 +38,7 @@ let bookNowBtn = document.querySelector("#bookNowBtn");
 // event listener
 bookNowBtn.addEventListener("click", validateForm);
 // appDate.addEventListener("change", validateAppDate);
-// appTime.addEventListener("change", saveBookedTime);
+// appTime.addEventListener("change", retrieveBookedTime);
 // appTimeEnd.addEventListener("change", validateAppEnd);
 personalBtn.addEventListener("click", personalPackage);
 professionalBtn.addEventListener("click", professionalPackage);
@@ -50,6 +50,7 @@ appDate.setAttribute("min", currentDate());
 // for local storage
 let appTimeOpts = document.querySelectorAll("option");
 let bookedTime = JSON.parse(localStorage.getItem("bookedTime"));
+
 retrieveBookedTime();
 
 function validateForm(e) {
@@ -175,16 +176,18 @@ function saveBookedTime(selectedTime) {
     }
 
     
-    appTimeOpts.forEach((listedTime) => {
-            if (listedTime.value == selectedTime) {
-                listedTime.setAttribute("name", "timeBooked");
-            }  
-    });
+    // appTimeOpts.forEach((listedTime) => {
+    //         if (listedTime.value == selectedTime) {
+    //             listedTime.setAttribute("name", "timeBooked");
+    //         }  
+    // });
 
     bookedTime.push(appointment);
 
     localStorage.setItem("bookedTime", JSON.stringify(bookedTime));
     console.log("time saved to local storage..");
+
+    // retrieveBookedTime();
 
 }
 
@@ -196,8 +199,9 @@ function retrieveBookedTime() {
         appTimeOpts.forEach((listedTime) => {
             bookedTime.forEach((sched) => {
                 if (listedTime.value == sched.appTimeObj) {
+                    listedTime.setAttribute("name", "timeBooked");
                     listedTime.setAttribute("disabled", "");
-                    listedTime.removeAttribute("name", "timeBooked");
+                    // listedTime.removeAttribute("name", "timeBooked");
                 }            
             });
         });
@@ -245,6 +249,7 @@ let custSupportPrice = parseInt(custSupport.getAttribute("data-val"));
 
 function personalPackage() {
     resetPackages();
+    retrieveBookedTime(); // to disable booked time even without reloading the page
 
     conCreationDiv.style.display = "block";
     socMediaMngtDiv.style.display = "block";
@@ -262,6 +267,7 @@ function personalPackage() {
 
 function professionalPackage() {
     resetPackages();
+    retrieveBookedTime(); // to disable booked time even without reloading the page
 
     conCreationDiv.style.display = "block";
     socMediaMngtDiv.style.display = "block";
@@ -283,6 +289,7 @@ function professionalPackage() {
 
 function ultimatePackage() {
     resetPackages();
+    retrieveBookedTime(); // to disable booked time even without reloading the page
 
     conCreationDiv.style.display = "block";
     socMediaMngtDiv.style.display = "block";
@@ -402,8 +409,6 @@ function sendEmail(e){
     .then(function() {
         console.log('SUCCESS!');
         alert("Email sent successfully");
-        
-        retrieveBookedTime();
     }, function(error) {
         console.log('FAILED...', error);
         alert('FAILED...', error);
